@@ -5,7 +5,7 @@ A comprehensive, modern training record web application built with vanilla JavaS
 ## ✨ Features
 
 ### 🎨 Modern Design
-- Clean, professional interface with smooth animations
+ - Futuristic glassmorphic interface with smooth animations
 - Dark/light theme support
 - Fully responsive design for all devices
 - Apple-level design aesthetics with attention to detail
@@ -39,6 +39,7 @@ A comprehensive, modern training record web application built with vanilla JavaS
 - Tag suggestions based on history
 - Toast notifications for user feedback
 - Keyboard shortcuts (Ctrl+N for new, Esc to close)
+- Bilingual UI (English/Japanese switcher)
 
 ### 🏋️ Comprehensive Tracking
 - Exercise name with auto-suggestions
@@ -75,6 +76,7 @@ A comprehensive, modern training record web application built with vanilla JavaS
 - **CSS Custom Properties**: Dynamic theming
 - **Local Storage**: Persistent data storage
 - **Progressive Enhancement**: Works without JavaScript for basic functionality
+- **Offline Ready**: Installable PWA with service worker caching
 
 ## 📱 Responsive Design
 
