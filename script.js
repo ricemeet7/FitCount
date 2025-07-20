@@ -48,8 +48,8 @@ const translations = {
         importSuccess: 'Imported {count} new records',
         importError: 'Error importing file',
         savingError: 'Error saving data',
-        requiredExercise: 'Exercise name is required'
-        ,confirmDelete: 'Are you sure you want to delete this workout?'
+        requiredExercise: 'Exercise name is required',
+        confirmDelete: 'Are you sure you want to delete this workout?'
     },
     ja: {
         navHome: 'ホーム',
@@ -100,8 +100,8 @@ const translations = {
         importSuccess: '{count} 件のデータをインポートしました',
         importError: 'ファイルのインポート中にエラーが発生しました',
         savingError: 'データ保存中にエラーが発生しました',
-        requiredExercise: '種目名は必須です'
-        ,confirmDelete: 'このワークアウトを削除してもよろしいですか?'
+        requiredExercise: '種目名は必須です',
+        confirmDelete: 'このワークアウトを削除してもよろしいですか?'
     }
 };
 
@@ -788,6 +788,13 @@ class TrainoteApp {
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new TrainoteApp();
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').catch(err => {
+            console.error('Service Worker registration failed:', err);
+        });
+    }
+});
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js').catch(err => {
