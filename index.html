@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRAINOTE - Modern Training Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app">
@@ -18,24 +19,30 @@
                     <div class="logo-icon">💪</div>
                     <h1>TRAINOTE</h1>
                 </div>
+                <nav class="main-nav">
+                    <a href="#home" data-i18n="navHome">Home</a>
+                    <a href="#reports" data-i18n="navReports">Reports</a>
+                    <a href="#settings" data-i18n="navSettings">Settings</a>
+                </nav>
                 <div class="header-actions">
                     <button class="btn btn-secondary" id="export-btn">
                         <span class="icon">📊</span>
-                        Export
+                        <span data-i18n="export">Export</span>
                     </button>
                     <button class="btn btn-secondary" id="import-btn">
                         <span class="icon">📥</span>
-                        Import
+                        <span data-i18n="import">Import</span>
                     </button>
                     <button class="btn btn-secondary" id="theme-toggle">
                         <span class="icon">🌙</span>
                     </button>
+                    <button class="btn btn-secondary" id="lang-toggle">JA</button>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <main class="main">
+        <main class="main" id="home">
             <!-- Stats Dashboard -->
             <section class="stats-section">
                 <div class="stats-grid">
@@ -43,28 +50,28 @@
                         <div class="stat-icon">🏋️</div>
                         <div class="stat-content">
                             <div class="stat-value" id="total-workouts">0</div>
-                            <div class="stat-label">Total Workouts</div>
+                            <div class="stat-label" data-i18n="totalWorkouts">Total Workouts</div>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">📈</div>
                         <div class="stat-content">
                             <div class="stat-value" id="this-week">0</div>
-                            <div class="stat-label">This Week</div>
+                            <div class="stat-label" data-i18n="thisWeek">This Week</div>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">🔥</div>
                         <div class="stat-content">
                             <div class="stat-value" id="streak">0</div>
-                            <div class="stat-label">Day Streak</div>
+                            <div class="stat-label" data-i18n="dayStreak">Day Streak</div>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">⚡</div>
                         <div class="stat-content">
                             <div class="stat-value" id="total-volume">0kg</div>
-                            <div class="stat-label">Total Volume</div>
+                            <div class="stat-label" data-i18n="totalVolume">Total Volume</div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +81,7 @@
             <section class="quick-actions">
                 <button class="btn btn-primary btn-large" id="add-workout-btn">
                     <span class="icon">➕</span>
-                    Add New Workout
+                    <span data-i18n="addWorkout">Add New Workout</span>
                 </button>
             </section>
 
@@ -83,19 +90,19 @@
                 <div class="filters-container">
                     <div class="search-box">
                         <span class="search-icon">🔍</span>
-                        <input type="text" id="search-input" placeholder="Search exercises, tags...">
+                        <input type="text" id="search-input" placeholder="Search exercises, tags..." data-i18n="searchPlaceholder">
                     </div>
                     <div class="filter-group">
                         <select id="exercise-filter" class="filter-select">
-                            <option value="">All Exercises</option>
+                            <option value="" data-i18n="allExercises">All Exercises</option>
                         </select>
                         <select id="date-filter" class="filter-select">
-                            <option value="">All Time</option>
-                            <option value="today">Today</option>
-                            <option value="week">This Week</option>
-                            <option value="month">This Month</option>
+                            <option value="" data-i18n="allTime">All Time</option>
+                            <option value="today" data-i18n="filterToday">Today</option>
+                            <option value="week" data-i18n="filterWeek">This Week</option>
+                            <option value="month" data-i18n="filterMonth">This Month</option>
                         </select>
-                        <button class="btn btn-secondary" id="clear-filters">Clear</button>
+                        <button class="btn btn-secondary" id="clear-filters" data-i18n="clear">Clear</button>
                     </div>
                 </div>
             </section>
@@ -103,7 +110,7 @@
             <!-- Records Table -->
             <section class="records-section">
                 <div class="section-header">
-                    <h2>Training Records</h2>
+                    <h2 data-i18n="recordsTitle">Training Records</h2>
                     <div class="view-toggle">
                         <button class="view-btn active" data-view="table">📋</button>
                         <button class="view-btn" data-view="cards">📱</button>
@@ -115,23 +122,23 @@
                         <thead>
                             <tr>
                                 <th class="sortable" data-sort="date">
-                                    Date <span class="sort-icon">↕️</span>
+                                    <span data-i18n="date">Date</span> <span class="sort-icon">↕️</span>
                                 </th>
                                 <th class="sortable" data-sort="exercise">
-                                    Exercise <span class="sort-icon">↕️</span>
+                                    <span data-i18n="exercise">Exercise</span> <span class="sort-icon">↕️</span>
                                 </th>
                                 <th class="sortable" data-sort="weight">
-                                    Weight <span class="sort-icon">↕️</span>
+                                    <span data-i18n="weight">Weight</span> <span class="sort-icon">↕️</span>
                                 </th>
                                 <th class="sortable" data-sort="reps">
-                                    Reps <span class="sort-icon">↕️</span>
+                                    <span data-i18n="reps">Reps</span> <span class="sort-icon">↕️</span>
                                 </th>
                                 <th class="sortable" data-sort="sets">
-                                    Sets <span class="sort-icon">↕️</span>
+                                    <span data-i18n="sets">Sets</span> <span class="sort-icon">↕️</span>
                                 </th>
-                                <th>Volume</th>
-                                <th>Tags</th>
-                                <th>Actions</th>
+                                <th data-i18n="volume">Volume</th>
+                                <th data-i18n="tags">Tags</th>
+                                <th data-i18n="actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="records-tbody">
@@ -145,61 +152,71 @@
 
                 <div class="empty-state hidden" id="empty-state">
                     <div class="empty-icon">🏋️‍♂️</div>
-                    <h3>No workouts yet</h3>
-                    <p>Start tracking your training progress by adding your first workout!</p>
-                    <button class="btn btn-primary" id="empty-add-btn">Add First Workout</button>
+                    <h3 data-i18n="emptyTitle">No workouts yet</h3>
+                    <p data-i18n="emptyMsg">Start tracking your training progress by adding your first workout!</p>
+                    <button class="btn btn-primary" id="empty-add-btn" data-i18n="emptyAdd">Add First Workout</button>
                 </div>
             </section>
         </main>
+
+        <section class="feature-section" id="reports">
+            <h2 data-i18n="reportsTitle">Reports</h2>
+            <p data-i18n="reportsDesc">Advanced analytics coming soon.</p>
+        </section>
+
+        <section class="feature-section" id="settings">
+            <h2 data-i18n="settingsTitle">Settings</h2>
+            <p data-i18n="settingsDesc">Customize your TRAINOTE experience.</p>
+        </section>
     </div>
 
     <!-- Modal for Add/Edit Workout -->
     <div class="modal-overlay hidden" id="workout-modal">
         <div class="modal">
             <div class="modal-header">
-                <h3 id="modal-title">Add New Workout</h3>
+                <h3 id="modal-title" data-i18n="modalTitle">Add New Workout</h3>
                 <button class="modal-close" id="modal-close">✕</button>
             </div>
             <form class="modal-body" id="workout-form">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="date">Date</label>
+                        <label for="date" data-i18n="date">Date</label>
                         <input type="date" id="date" required>
                     </div>
                     <div class="form-group">
-                        <label for="exercise">Exercise</label>
+                        <label for="exercise" data-i18n="exercise">Exercise</label>
                         <input type="text" id="exercise" required list="exercise-suggestions">
                         <datalist id="exercise-suggestions"></datalist>
                     </div>
                     <div class="form-group">
-                        <label for="weight">Weight (kg)</label>
+                        <label for="weight" data-i18n="weight">Weight (kg)</label>
                         <input type="number" id="weight" step="0.5" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="reps">Reps</label>
+                        <label for="reps" data-i18n="reps">Reps</label>
                         <input type="number" id="reps" min="1">
                     </div>
                     <div class="form-group">
-                        <label for="sets">Sets</label>
+                        <label for="sets" data-i18n="sets">Sets</label>
                         <input type="number" id="sets" min="1">
                     </div>
                     <div class="form-group">
-                        <label for="rest-time">Rest Time (min)</label>
+                        <label for="rest-time" data-i18n="rest">Rest Time (min)</label>
                         <input type="number" id="rest-time" step="0.5" min="0">
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label for="comment">Notes</label>
+                    <label for="comment" data-i18n="notes">Notes</label>
                     <textarea id="comment" rows="3" placeholder="How did it feel? Any observations?"></textarea>
                 </div>
                 <div class="form-group full-width">
-                    <label for="tags">Tags</label>
-                    <input type="text" id="tags" placeholder="e.g., chest, strength, PR">
+                    <label for="tags" data-i18n="tags">Tags</label>
+                    <input type="text" id="tags" placeholder="e.g., chest, strength, PR" data-i18n="tagsPlaceholder">
                     <div class="tag-suggestions" id="tag-suggestions"></div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="save-btn">Save Workout</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-btn" data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn" data-i18n="saveWorkout">Save Workout</button>
                 </div>
             </form>
         </div>
