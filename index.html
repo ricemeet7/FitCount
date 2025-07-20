@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRAINOTE - Modern Training Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app">
@@ -18,6 +19,11 @@
                     <div class="logo-icon">💪</div>
                     <h1>TRAINOTE</h1>
                 </div>
+                <nav class="main-nav">
+                    <a href="#home" data-i18n="navHome">Home</a>
+                    <a href="#reports" data-i18n="navReports">Reports</a>
+                    <a href="#settings" data-i18n="navSettings">Settings</a>
+                </nav>
                 <div class="header-actions">
                     <button class="btn btn-secondary" id="export-btn">
                         <span class="icon">📊</span>
@@ -30,12 +36,13 @@
                     <button class="btn btn-secondary" id="theme-toggle">
                         <span class="icon">🌙</span>
                     </button>
+                    <button class="btn btn-secondary" id="lang-toggle">JA</button>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <main class="main">
+        <main class="main" id="home">
             <!-- Stats Dashboard -->
             <section class="stats-section">
                 <div class="stats-grid">
@@ -74,7 +81,7 @@
             <section class="quick-actions">
                 <button class="btn btn-primary btn-large" id="add-workout-btn">
                     <span class="icon">➕</span>
-                    Add New Workout
+                    <span data-i18n="addWorkout">Add New Workout</span>
                 </button>
             </section>
 
@@ -103,7 +110,7 @@
             <!-- Records Table -->
             <section class="records-section">
                 <div class="section-header">
-                    <h2>Training Records</h2>
+                    <h2 data-i18n="recordsTitle">Training Records</h2>
                     <div class="view-toggle">
                         <button class="view-btn active" data-view="table">📋</button>
                         <button class="view-btn" data-view="cards">📱</button>
@@ -145,19 +152,29 @@
 
                 <div class="empty-state hidden" id="empty-state">
                     <div class="empty-icon">🏋️‍♂️</div>
-                    <h3>No workouts yet</h3>
-                    <p>Start tracking your training progress by adding your first workout!</p>
-                    <button class="btn btn-primary" id="empty-add-btn">Add First Workout</button>
+                    <h3 data-i18n="emptyTitle">No workouts yet</h3>
+                    <p data-i18n="emptyMsg">Start tracking your training progress by adding your first workout!</p>
+                    <button class="btn btn-primary" id="empty-add-btn" data-i18n="emptyAdd">Add First Workout</button>
                 </div>
             </section>
         </main>
+
+        <section class="feature-section" id="reports">
+            <h2 data-i18n="reportsTitle">Reports</h2>
+            <p data-i18n="reportsDesc">Advanced analytics coming soon.</p>
+        </section>
+
+        <section class="feature-section" id="settings">
+            <h2 data-i18n="settingsTitle">Settings</h2>
+            <p data-i18n="settingsDesc">Customize your TRAINOTE experience.</p>
+        </section>
     </div>
 
     <!-- Modal for Add/Edit Workout -->
     <div class="modal-overlay hidden" id="workout-modal">
         <div class="modal">
             <div class="modal-header">
-                <h3 id="modal-title">Add New Workout</h3>
+                <h3 id="modal-title" data-i18n="modalTitle">Add New Workout</h3>
                 <button class="modal-close" id="modal-close">✕</button>
             </div>
             <form class="modal-body" id="workout-form">
@@ -198,8 +215,8 @@
                     <div class="tag-suggestions" id="tag-suggestions"></div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="save-btn">Save Workout</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-btn" data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn" data-i18n="saveWorkout">Save Workout</button>
                 </div>
             </form>
         </div>
