@@ -1,3 +1,53 @@
+const translations = {
+    en: {
+        navHome: 'Home',
+        navReports: 'Reports',
+        navSettings: 'Settings',
+        reportsTitle: 'Reports',
+        reportsDesc: 'Advanced analytics coming soon.',
+        settingsTitle: 'Settings',
+        settingsDesc: 'Customize your TRAINOTE experience.',
+        addWorkout: 'Add New Workout',
+        recordsTitle: 'Training Records',
+        emptyTitle: 'No workouts yet',
+        emptyMsg: 'Start tracking your training progress by adding your first workout!',
+        emptyAdd: 'Add First Workout',
+        modalTitle: 'Add New Workout',
+        cancel: 'Cancel',
+        saveWorkout: 'Save Workout'
+    },
+    ja: {
+        navHome: 'ホーム',
+        navReports: 'レポート',
+        navSettings: '設定',
+        reportsTitle: 'レポート',
+        reportsDesc: '高度な分析機能は近日公開予定です。',
+        settingsTitle: '設定',
+        settingsDesc: 'TRAINOTE の体験をカスタマイズしましょう。',
+        addWorkout: 'ワークアウト追加',
+        recordsTitle: 'トレーニング記録',
+        emptyTitle: 'まだ記録がありません',
+        emptyMsg: '最初のワークアウトを追加して進捗を記録しましょう！',
+        emptyAdd: '最初のワークアウトを追加',
+        modalTitle: 'ワークアウト追加',
+        cancel: 'キャンセル',
+        saveWorkout: '保存'
+    }
+};
+
+function applyTranslations(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
+    });
+    const langBtn = document.getElementById('lang-toggle');
+    if (langBtn) {
+        langBtn.textContent = lang === 'en' ? 'JA' : 'EN';
+    }
+}
+
 class TrainoteApp {
     constructor() {
         this.records = this.loadRecords();
@@ -9,11 +59,13 @@ class TrainoteApp {
             date: ''
         };
         this.editingIndex = null;
-        
+        this.lang = localStorage.getItem('trainote_lang') || document.documentElement.lang || 'en';
+
         this.init();
     }
 
     init() {
+        this.setLang(this.lang);
         this.setupEventListeners();
         this.updateStats();
         this.renderRecords();
@@ -55,6 +107,7 @@ class TrainoteApp {
         document.getElementById('export-btn').addEventListener('click', () => this.exportData());
         document.getElementById('import-btn').addEventListener('click', () => this.importData());
         document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+        document.getElementById('lang-toggle').addEventListener('click', () => this.toggleLang());
         
         // File input for import
         document.getElementById('file-input').addEventListener('change', (e) => this.handleFileImport(e));
@@ -587,6 +640,19 @@ class TrainoteApp {
         const themeBtn = document.getElementById('theme-toggle');
         const icon = themeBtn.querySelector('.icon');
         icon.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+
+    // Language management
+    setLang(lang) {
+        this.lang = lang;
+        document.documentElement.lang = lang;
+        localStorage.setItem('trainote_lang', lang);
+        applyTranslations(lang);
+    }
+
+    toggleLang() {
+        const newLang = this.lang === 'en' ? 'ja' : 'en';
+        this.setLang(newLang);
     }
 
     // Utilities

@@ -51,11 +51,12 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-secondary);
+    font-family: 'Inter', 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background 0.6s ease, color 0.3s ease;
 }
 
 /* App layout */
@@ -67,7 +68,8 @@ body {
 
 /* Header */
 .header {
-    background: var(--bg-primary);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     position: sticky;
@@ -82,6 +84,37 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.main-nav {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-left: var(--spacing-lg);
+}
+
+.main-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), #8b5cf6);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: right;
+}
+
+.main-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .logo {
@@ -177,6 +210,17 @@ body {
 /* Quick actions */
 .quick-actions {
     margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.feature-section {
+    max-width: 800px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     text-align: center;
 }
 
@@ -454,23 +498,25 @@ body {
 }
 
 .btn-primary {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
     color: white;
+    box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
+    filter: brightness(1.05);
     transform: translateY(-1px);
 }
 
 .btn-secondary {
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6px);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-    background: var(--bg-tertiary);
+    background: rgba(255, 255, 255, 0.8);
     border-color: var(--border-hover);
 }
 
