@@ -1,66 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRAINOTE</title>
+    <title>TRAINOTE - Modern Training Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>TRAINOTE</h1>
-        <form id="record-form">
-            <div class="field">
-                <label for="date">Date <span class="help" data-help="Record date">?</span></label>
-                <input type="date" id="date" required>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">💪</div>
+                    <h1>TRAINOTE</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="export-btn">
+                        <span class="icon">📊</span>
+                        Export
+                    </button>
+                    <button class="btn btn-secondary" id="import-btn">
+                        <span class="icon">📥</span>
+                        Import
+                    </button>
+                    <button class="btn btn-secondary" id="theme-toggle">
+                        <span class="icon">🌙</span>
+                    </button>
+                </div>
             </div>
-            <div class="field">
-                <label for="exercise">Exercise <span class="help" data-help="Exercise name">?</span></label>
-                <input type="text" id="exercise" required>
-            </div>
-            <div class="field">
-                <label for="weight">Weight (kg) <span class="help" data-help="Weight used">?</span></label>
-                <input type="number" id="weight" step="0.1">
-            </div>
-            <div class="field">
-                <label for="reps">Reps <span class="help" data-help="Number of repetitions">?</span></label>
-                <input type="number" id="reps">
-            </div>
-            <div class="field">
-                <label for="sets">Sets <span class="help" data-help="Number of sets">?</span></label>
-                <input type="number" id="sets">
-            </div>
-            <div class="field">
-                <label for="comment">Comment <span class="help" data-help="Optional notes">?</span></label>
-                <input type="text" id="comment">
-            </div>
-            <div class="field">
-                <label for="tags">Tags <span class="help" data-help="Comma-separated tags">?</span></label>
-                <input type="text" id="tags">
-            </div>
-            <button type="submit">Save</button>
-        </form>
+        </header>
 
-        <h2>Records</h2>
-        <table id="records-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Exercise</th>
-                    <th>Weight</th>
-                    <th>Reps</th>
-                    <th>Sets</th>
-                    <th>Comment</th>
-                    <th>Tags</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Stats Dashboard -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🏋️</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="total-workouts">0</div>
+                            <div class="stat-label">Total Workouts</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="this-week">0</div>
+                            <div class="stat-label">This Week</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="streak">0</div>
+                            <div class="stat-label">Day Streak</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="total-volume">0kg</div>
+                            <div class="stat-label">Total Volume</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <button class="btn btn-primary btn-large" id="add-workout-btn">
+                    <span class="icon">➕</span>
+                    Add New Workout
+                </button>
+            </section>
+
+            <!-- Filters and Search -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-input" placeholder="Search exercises, tags...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="exercise-filter" class="filter-select">
+                            <option value="">All Exercises</option>
+                        </select>
+                        <select id="date-filter" class="filter-select">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                        <button class="btn btn-secondary" id="clear-filters">Clear</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Records Table -->
+            <section class="records-section">
+                <div class="section-header">
+                    <h2>Training Records</h2>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="table">📋</button>
+                        <button class="view-btn" data-view="cards">📱</button>
+                    </div>
+                </div>
+                
+                <div class="table-container" id="table-view">
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="date">
+                                    Date <span class="sort-icon">↕️</span>
+                                </th>
+                                <th class="sortable" data-sort="exercise">
+                                    Exercise <span class="sort-icon">↕️</span>
+                                </th>
+                                <th class="sortable" data-sort="weight">
+                                    Weight <span class="sort-icon">↕️</span>
+                                </th>
+                                <th class="sortable" data-sort="reps">
+                                    Reps <span class="sort-icon">↕️</span>
+                                </th>
+                                <th class="sortable" data-sort="sets">
+                                    Sets <span class="sort-icon">↕️</span>
+                                </th>
+                                <th>Volume</th>
+                                <th>Tags</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-tbody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cards-container hidden" id="cards-view">
+                    <!-- Cards will be populated by JavaScript -->
+                </div>
+
+                <div class="empty-state hidden" id="empty-state">
+                    <div class="empty-icon">🏋️‍♂️</div>
+                    <h3>No workouts yet</h3>
+                    <p>Start tracking your training progress by adding your first workout!</p>
+                    <button class="btn btn-primary" id="empty-add-btn">Add First Workout</button>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <div id="tooltip" class="tooltip"></div>
+    <!-- Modal for Add/Edit Workout -->
+    <div class="modal-overlay hidden" id="workout-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Workout</h3>
+                <button class="modal-close" id="modal-close">✕</button>
+            </div>
+            <form class="modal-body" id="workout-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exercise">Exercise</label>
+                        <input type="text" id="exercise" required list="exercise-suggestions">
+                        <datalist id="exercise-suggestions"></datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" step="0.5" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="reps">Reps</label>
+                        <input type="number" id="reps" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="sets">Sets</label>
+                        <input type="number" id="sets" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="rest-time">Rest Time (min)</label>
+                        <input type="number" id="rest-time" step="0.5" min="0">
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="comment">Notes</label>
+                    <textarea id="comment" rows="3" placeholder="How did it feel? Any observations?"></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" placeholder="e.g., chest, strength, PR">
+                    <div class="tag-suggestions" id="tag-suggestions"></div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn">Save Workout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- File input for import -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
     <script src="script.js"></script>
 </body>
 </html>
