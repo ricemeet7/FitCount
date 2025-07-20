@@ -8,13 +8,48 @@ const translations = {
         settingsTitle: 'Settings',
         settingsDesc: 'Customize your TRAINOTE experience.',
         addWorkout: 'Add New Workout',
+        export: 'Export',
+        import: 'Import',
+        clear: 'Clear',
+        date: 'Date',
+        exercise: 'Exercise',
+        weight: 'Weight (kg)',
+        reps: 'Reps',
+        sets: 'Sets',
+        rest: 'Rest Time (min)',
+        notes: 'Notes',
+        tags: 'Tags',
+        actions: 'Actions',
+        volume: 'Volume',
+        totalWorkouts: 'Total Workouts',
+        thisWeek: 'This Week',
+        dayStreak: 'Day Streak',
+        totalVolume: 'Total Volume',
+        searchPlaceholder: 'Search exercises, tags...',
+        allExercises: 'All Exercises',
+        allTime: 'All Time',
+        filterToday: 'Today',
+        filterWeek: 'This Week',
+        filterMonth: 'This Month',
+        tagsPlaceholder: 'e.g., chest, strength, PR',
+        editWorkoutTitle: 'Edit Workout',
         recordsTitle: 'Training Records',
         emptyTitle: 'No workouts yet',
         emptyMsg: 'Start tracking your training progress by adding your first workout!',
         emptyAdd: 'Add First Workout',
         modalTitle: 'Add New Workout',
         cancel: 'Cancel',
-        saveWorkout: 'Save Workout'
+        saveWorkout: 'Save Workout',
+        workoutUpdated: 'Workout updated successfully',
+        workoutAdded: 'Workout added successfully',
+        workoutDeleted: 'Workout deleted',
+        workoutDuplicated: 'Workout duplicated',
+        exportSuccess: 'Data exported successfully',
+        importSuccess: 'Imported {count} new records',
+        importError: 'Error importing file',
+        savingError: 'Error saving data',
+        requiredExercise: 'Exercise name is required',
+        confirmDelete: 'Are you sure you want to delete this workout?'
     },
     ja: {
         navHome: 'ホーム',
@@ -25,21 +60,60 @@ const translations = {
         settingsTitle: '設定',
         settingsDesc: 'TRAINOTE の体験をカスタマイズしましょう。',
         addWorkout: 'ワークアウト追加',
+        export: 'エクスポート',
+        import: 'インポート',
+        clear: 'クリア',
+        date: '日付',
+        exercise: '種目',
+        weight: '重量(kg)',
+        reps: '回数',
+        sets: 'セット',
+        rest: '休憩時間(分)',
+        notes: 'メモ',
+        tags: 'タグ',
+        actions: '操作',
+        volume: 'ボリューム',
+        totalWorkouts: '総ワークアウト数',
+        thisWeek: '今週',
+        dayStreak: '連続日数',
+        totalVolume: '総ボリューム',
+        searchPlaceholder: '種目・タグを検索',
+        allExercises: 'すべての種目',
+        allTime: '期間指定なし',
+        filterToday: '今日',
+        filterWeek: '今週',
+        filterMonth: '今月',
+        tagsPlaceholder: '例: 胸, ストレングス, PR',
+        editWorkoutTitle: 'ワークアウト編集',
         recordsTitle: 'トレーニング記録',
         emptyTitle: 'まだ記録がありません',
         emptyMsg: '最初のワークアウトを追加して進捗を記録しましょう！',
         emptyAdd: '最初のワークアウトを追加',
         modalTitle: 'ワークアウト追加',
         cancel: 'キャンセル',
-        saveWorkout: '保存'
+        saveWorkout: '保存',
+        workoutUpdated: 'ワークアウトを更新しました',
+        workoutAdded: 'ワークアウトを追加しました',
+        workoutDeleted: 'ワークアウトを削除しました',
+        workoutDuplicated: 'ワークアウトを複製しました',
+        exportSuccess: 'データをエクスポートしました',
+        importSuccess: '{count} 件のデータをインポートしました',
+        importError: 'ファイルのインポート中にエラーが発生しました',
+        savingError: 'データ保存中にエラーが発生しました',
+        requiredExercise: '種目名は必須です',
+        confirmDelete: 'このワークアウトを削除してもよろしいですか?'
     }
 };
 
 function applyTranslations(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
+        const text = translations[lang] && translations[lang][key];
+        if (!text) return;
+        if ('placeholder' in el) {
+            el.placeholder = text;
+        } else {
+            el.textContent = text;
         }
     });
     const langBtn = document.getElementById('lang-toggle');
@@ -139,7 +213,7 @@ class TrainoteApp {
             localStorage.setItem('trainote_records', JSON.stringify(this.records));
         } catch (error) {
             console.error('Error saving records:', error);
-            this.showToast('Error saving data', 'error');
+            this.showToast(translations[this.lang].savingError, 'error');
         }
     }
 
@@ -162,16 +236,16 @@ class TrainoteApp {
 
         // Validation
         if (!record.exercise) {
-            this.showToast('Exercise name is required', 'error');
+            this.showToast(translations[this.lang].requiredExercise, 'error');
             return;
         }
 
         if (this.editingIndex !== null) {
             this.records[this.editingIndex] = record;
-            this.showToast('Workout updated successfully', 'success');
+            this.showToast(translations[this.lang].workoutUpdated, 'success');
         } else {
             this.records.push(record);
-            this.showToast('Workout added successfully', 'success');
+            this.showToast(translations[this.lang].workoutAdded, 'success');
         }
 
         this.saveRecords();
@@ -186,7 +260,7 @@ class TrainoteApp {
         const record = this.records[index];
         this.editingIndex = index;
         
-        document.getElementById('modal-title').textContent = 'Edit Workout';
+        document.getElementById('modal-title').textContent = translations[this.lang].editWorkoutTitle;
         document.getElementById('date').value = record.date;
         document.getElementById('exercise').value = record.exercise;
         document.getElementById('weight').value = record.weight || '';
@@ -200,13 +274,13 @@ class TrainoteApp {
     }
 
     deleteRecord(index) {
-        if (confirm('Are you sure you want to delete this workout?')) {
+        if (confirm(translations[this.lang].confirmDelete)) {
             this.records.splice(index, 1);
             this.saveRecords();
             this.updateStats();
             this.renderRecords();
             this.updateFilters();
-            this.showToast('Workout deleted', 'success');
+            this.showToast(translations[this.lang].workoutDeleted, 'success');
         }
     }
 
@@ -220,13 +294,13 @@ class TrainoteApp {
         this.saveRecords();
         this.updateStats();
         this.renderRecords();
-        this.showToast('Workout duplicated', 'success');
+        this.showToast(translations[this.lang].workoutDuplicated, 'success');
     }
 
     // UI Management
     openModal() {
         if (this.editingIndex === null) {
-            document.getElementById('modal-title').textContent = 'Add New Workout';
+            document.getElementById('modal-title').textContent = translations[this.lang].modalTitle;
             document.getElementById('workout-form').reset();
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
         }
@@ -576,7 +650,7 @@ class TrainoteApp {
         a.click();
         URL.revokeObjectURL(url);
         
-        this.showToast('Data exported successfully', 'success');
+        this.showToast(translations[this.lang].exportSuccess, 'success');
     }
 
     importData() {
@@ -605,14 +679,17 @@ class TrainoteApp {
                         this.updateFilters();
                         this.populateExerciseSuggestions();
                         
-                        this.showToast(`Imported ${newRecords.length} new records`, 'success');
+                        this.showToast(
+                            translations[this.lang].importSuccess.replace('{count}', newRecords.length),
+                            'success'
+                        );
                     }
                 } else {
                     throw new Error('Invalid file format');
                 }
             } catch (error) {
                 console.error('Import error:', error);
-                this.showToast('Error importing file', 'error');
+                this.showToast(translations[this.lang].importError, 'error');
             }
         };
         reader.readAsText(file);
@@ -719,5 +796,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Make app globally available for onclick handlers
-window.app = null;
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').catch(err => {
+            console.error('Service Worker registration failed:', err);
+        });
+    }
+});
