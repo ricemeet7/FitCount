@@ -645,6 +645,12 @@ class TrainoteApp {
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new TrainoteApp();
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js').catch(err => {
+            console.error('Service Worker registration failed:', err);
+        });
+    }
 });
 
 // Make app globally available for onclick handlers

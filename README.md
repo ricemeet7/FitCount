@@ -75,6 +75,7 @@ A comprehensive, modern training record web application built with vanilla JavaS
 - **CSS Custom Properties**: Dynamic theming
 - **Local Storage**: Persistent data storage
 - **Progressive Enhancement**: Works without JavaScript for basic functionality
+- **Offline Ready**: Installable PWA with service worker caching
 
 ## 📱 Responsive Design
 
