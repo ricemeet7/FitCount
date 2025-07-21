@@ -379,6 +379,27 @@ body {
     background: var(--bg-secondary);
 }
 
+/* Reports table */
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-lg);
+}
+
+.reports-table th,
+.reports-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reports-table th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
 /* Cards view */
 .cards-container {
     padding: var(--spacing-lg);
