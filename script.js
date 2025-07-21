@@ -49,7 +49,12 @@ const translations = {
         importError: 'Error importing file',
         savingError: 'Error saving data',
         requiredExercise: 'Exercise name is required',
-        confirmDelete: 'Are you sure you want to delete this workout?'
+        confirmDelete: 'Are you sure you want to delete this workout?',
+        edit: 'Edit',
+        copy: 'Copy',
+        delete: 'Delete',
+        today: 'Today',
+        yesterday: 'Yesterday'
     },
     ja: {
         navHome: 'ホーム',
@@ -101,7 +106,12 @@ const translations = {
         importError: 'ファイルのインポート中にエラーが発生しました',
         savingError: 'データ保存中にエラーが発生しました',
         requiredExercise: '種目名は必須です',
-        confirmDelete: 'このワークアウトを削除してもよろしいですか?'
+        confirmDelete: 'このワークアウトを削除してもよろしいですか?',
+        edit: '編集',
+        copy: 'コピー',
+        delete: '削除',
+        today: '今日',
+        yesterday: '昨日'
     }
 };
 
@@ -417,13 +427,13 @@ class TrainoteApp {
                 <td>${tags}</td>
                 <td class="actions">
                     <button class="btn btn-small btn-secondary" onclick="app.editRecord(${originalIndex})">
-                        ✏️ Edit
+                        ✏️ ${translations[this.lang].edit}
                     </button>
                     <button class="btn btn-small btn-secondary" onclick="app.duplicateRecord(${originalIndex})">
-                        📋 Copy
+                        📋 ${translations[this.lang].copy}
                     </button>
                     <button class="btn btn-small btn-error" onclick="app.deleteRecord(${originalIndex})">
-                        🗑️ Delete
+                        🗑️ ${translations[this.lang].delete}
                     </button>
                 </td>
             `;
@@ -453,29 +463,29 @@ class TrainoteApp {
                 <div class="card-stats">
                     <div class="card-stat">
                         <div class="card-stat-value">${record.weight || '-'}</div>
-                        <div class="card-stat-label">Weight (kg)</div>
+                        <div class="card-stat-label">${translations[this.lang].weight}</div>
                     </div>
                     <div class="card-stat">
                         <div class="card-stat-value">${record.reps || '-'}</div>
-                        <div class="card-stat-label">Reps</div>
+                        <div class="card-stat-label">${translations[this.lang].reps}</div>
                     </div>
                     <div class="card-stat">
                         <div class="card-stat-value">${record.sets || '-'}</div>
-                        <div class="card-stat-label">Sets</div>
+                        <div class="card-stat-label">${translations[this.lang].sets}</div>
                     </div>
                 </div>
-                ${volume ? `<div class="text-center text-sm"><strong>Volume: ${volume.toLocaleString()}kg</strong></div>` : ''}
+                ${volume ? `<div class="text-center text-sm"><strong>${translations[this.lang].volume}: ${volume.toLocaleString()}kg</strong></div>` : ''}
                 ${record.comment ? `<div class="text-sm" style="margin: 8px 0; color: var(--text-secondary);">${record.comment}</div>` : ''}
                 ${tags ? `<div class="card-tags">${tags}</div>` : ''}
                 <div class="card-actions">
                     <button class="btn btn-small btn-secondary" onclick="app.editRecord(${originalIndex})">
-                        ✏️
+                        ✏️ ${translations[this.lang].edit}
                     </button>
                     <button class="btn btn-small btn-secondary" onclick="app.duplicateRecord(${originalIndex})">
-                        📋
+                        📋 ${translations[this.lang].copy}
                     </button>
                     <button class="btn btn-small btn-error" onclick="app.deleteRecord(${originalIndex})">
-                        🗑️
+                        🗑️ ${translations[this.lang].delete}
                     </button>
                 </div>
             `;
@@ -740,11 +750,12 @@ class TrainoteApp {
         yesterday.setDate(yesterday.getDate() - 1);
         
         if (date.toDateString() === today.toDateString()) {
-            return 'Today';
+            return translations[this.lang].today;
         } else if (date.toDateString() === yesterday.toDateString()) {
-            return 'Yesterday';
+            return translations[this.lang].yesterday;
         } else {
-            return date.toLocaleDateString('ja-JP', {
+            const locale = this.lang === 'en' ? 'en-US' : 'ja-JP';
+            return date.toLocaleDateString(locale, {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
