@@ -123,6 +123,19 @@ const translations = {
     }
 };
 
+const defaultExercises = [
+    'Bench Press',
+    'Squat',
+    'Deadlift',
+    'Overhead Press',
+    'Barbell Row',
+    'Pull-Up',
+    'Push-Up',
+    'Dumbbell Curl',
+    'Triceps Extension',
+    'Plank'
+];
+
 function applyTranslations(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -662,9 +675,14 @@ class TrainoteApp {
     }
 
     populateExerciseSuggestions() {
-        const exercises = [...new Set(this.records.map(r => r.exercise))].sort();
+        const exercises = [
+            ...new Set([
+                ...defaultExercises,
+                ...this.records.map(r => r.exercise)
+            ])
+        ].sort();
         const datalist = document.getElementById('exercise-suggestions');
-        
+
         datalist.innerHTML = '';
         exercises.forEach(exercise => {
             const option = document.createElement('option');
