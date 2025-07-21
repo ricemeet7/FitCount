@@ -15,6 +15,7 @@ A comprehensive, modern training record web application built with vanilla JavaS
 - Training streak tracking
 - Weekly progress monitoring
 - Total volume calculations
+- Exercise summary reports
 
 ### 🔍 Smart Filtering & Search
 - Real-time search across exercises, comments, and tags

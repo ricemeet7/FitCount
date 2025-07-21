@@ -4,7 +4,11 @@ const translations = {
         navReports: 'Reports',
         navSettings: 'Settings',
         reportsTitle: 'Reports',
-        reportsDesc: 'Advanced analytics coming soon.',
+        reportsDesc: 'View summaries of your workouts by exercise.',
+        summaryByExercise: 'Summary by Exercise',
+        sessionsLabel: 'Sessions',
+        avgWeightLabel: 'Avg Weight (kg)',
+        noReportData: 'Add some workouts to see reports.',
         settingsTitle: 'Settings',
         settingsDesc: 'Customize your TRAINOTE experience.',
         addWorkout: 'Add New Workout',
@@ -61,7 +65,11 @@ const translations = {
         navReports: 'レポート',
         navSettings: '設定',
         reportsTitle: 'レポート',
-        reportsDesc: '高度な分析機能は近日公開予定です。',
+        reportsDesc: '種目別のワークアウトサマリーを表示します。',
+        summaryByExercise: '種目別サマリー',
+        sessionsLabel: '回数',
+        avgWeightLabel: '平均重量(kg)',
+        noReportData: 'レポートを表示するにはワークアウトを追加してください。',
         settingsTitle: '設定',
         settingsDesc: 'TRAINOTE の体験をカスタマイズしましょう。',
         addWorkout: 'ワークアウト追加',
@@ -360,6 +368,8 @@ class TrainoteApp {
         document.getElementById('this-week').textContent = thisWeekRecords.length;
         document.getElementById('streak').textContent = streak;
         document.getElementById('total-volume').textContent = `${totalVolume.toLocaleString()}kg`;
+
+        this.updateReports();
     }
 
     calculateStreak() {
@@ -382,6 +392,47 @@ class TrainoteApp {
         }
         
         return streak;
+    }
+
+    updateReports() {
+        const summary = {};
+        this.records.forEach(r => {
+            const ex = r.exercise;
+            if (!summary[ex]) {
+                summary[ex] = { sessions: 0, volume: 0, weightSum: 0 };
+            }
+            summary[ex].sessions += 1;
+            summary[ex].volume += (r.weight * r.reps * r.sets) || 0;
+            summary[ex].weightSum += r.weight || 0;
+        });
+
+        const tbody = document.getElementById('reports-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        const exercises = Object.keys(summary).sort();
+        if (exercises.length === 0) {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.colSpan = 4;
+            td.textContent = translations[this.lang].noReportData;
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            return;
+        }
+
+        exercises.forEach(ex => {
+            const data = summary[ex];
+            const avg = data.weightSum / data.sessions || 0;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${ex}</td>
+                <td>${data.sessions}</td>
+                <td>${data.volume.toLocaleString()}kg</td>
+                <td>${avg.toFixed(1)}kg</td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     // Rendering
